@@ -1,0 +1,26 @@
+// Tower of hanoi 
+// TC: O(2^n) and SC: O(n) 
+ 
+#include <bits/stdc++.h> 
+using namespace std; 
+ 
+void towerOfHanoi(int n, char src, char des, char aux) 
+{ 
+    if (n == 0) 
+    { 
+        return; 
+    } 
+    towerOfHanoi(n - 1, src, aux, des); 
+    cout << "Move disk " << n << " from rod " << src 
+         << " to rod " << des << endl; 
+    towerOfHanoi(n - 1, aux, des, src); 
+} 
+ 
+int main() 
+{ 
+    int N = 3; 
+ 
+    // A, B, and C are names of rods 
+    towerOfHanoi(N, 'A', 'C', 'B'); 
+    return 0; 
+} 

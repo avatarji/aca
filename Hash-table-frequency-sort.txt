@@ -1,0 +1,33 @@
+// Sorting elements of an array by frequency 
+// TC: O(n log n) and SC: O(n) 
+ 
+#include <bits/stdc++.h> 
+using namespace std; 
+bool compare(pair<int, int> &a, pair<int, int> &b){ 
+    if (a.second == b.second){ 
+        return a.first < b.first; // Sort by value if frequencies are equal 
+    } 
+    return a.second > b.second; // Sort by frequency in descending order 
+} 
+vector<int> sortByFrequency(const vector<int> &arr){ 
+    unordered_map<int, int> freqMap; 
+    for (int num : arr) freqMap[num]++; 
+ 
+    vector<pair<int, int>> freqVector(freqMap.begin(), freqMap.end()); 
+    sort(freqVector.begin(), freqVector.end(), compare); 
+    vector<int> sortedArr; 
+    for (const auto &entry : freqVector){ 
+        sortedArr.insert(sortedArr.end(), entry.second, entry.first); 
+    } 
+    return sortedArr; 
+} 
+ 
+int main(){ 
+    vector<int> arr = {4, 6, 2, 5, 7, 9, 1, 3, 2, 5, 4, 4, 6, 6}; 
+    vector<int> sortedArr = sortByFrequency(arr); 
+    cout << "Array sorted by frequency: "; 
+    for (int num : sortedArr){ 
+        cout << num << " "; 
+    } 
+    return 0; 
+} 

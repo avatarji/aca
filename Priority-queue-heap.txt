@@ -1,0 +1,106 @@
+// Implement a priority queue (Max-Heap) 
+// TC: insert(): O(log n) 
+//     deleteMax(): O(log n) 
+//     heapSort(): O(n log n) 
+//     printHeap(): O(n) 
+// SC:O(n) 
+ 
+#include <bits/stdc++.h> 
+using namespace std; 
+ 
+class MaxHeap 
+{ 
+private: 
+    vector<int> heap; 
+ // Helper function to maintain the heap property (upward) 
+    void heapifyUp(int index) 
+    { 
+        while (index > 0 && heap[(index - 1) / 2] < heap[index]) 
+        { 
+            swap(heap[(index - 1) / 2], heap[index]); 
+            index = (index - 1) / 2; 
+        } 
+    } 
+ 
+    // Helper function to maintain the heap property (downward) 
+    void heapifyDown(int index) 
+    { 
+        int left = 2 * index + 1, right = 2 * index + 2, largest = index; 
+        if (left < heap.size() && heap[left] > heap[largest]) 
+            largest = left; 
+        if (right < heap.size() && heap[right] > heap[largest]) 
+            largest = right; 
+        if (largest != index) 
+        { 
+            swap(heap[index], heap[largest]); 
+            heapifyDown(largest); 
+        } 
+    } 
+ 
+public: 
+    // Insert an element into the max heap 
+    void insert(int value) 
+    { 
+        heap.push_back(value); 
+        heapifyUp(heap.size() - 1); 
+    } 
+ 
+    // Remove and return the maximum element 
+    void deleteMax() 
+    { 
+        if (heap.empty()) 
+            return; 
+        int maxVal = heap[0]; 
+        heap[0] = heap.back(); 
+        heap.pop_back(); 
+        heapifyDown(0); 
+        cout << "Removed: " << maxVal << endl; 
+    } 
+ 
+    // Perform heap sort in descending order 
+    void heapSort() 
+    { 
+        for (int i = heap.size() / 2 - 1; i >= 0; --i) 
+            heapifyDown(i); 
+ for (int i = heap.size() - 1; i > 0; --i) 
+        { 
+            swap(heap[0], heap[i]); 
+            heapifyDown(0); 
+        } 
+    } 
+ 
+    // Print the current heap 
+    void printHeap() 
+    { 
+        for (int val : heap) 
+            cout << val << " "; 
+        cout << endl; 
+    } 
+}; 
+ 
+int main() 
+{ 
+    MaxHeap pq; 
+    vector<int> arr = {9, 4, 3, 8, 10, 2, 5}; 
+ 
+    // Insert elements into the heap 
+    for (int val : arr) 
+        pq.insert(val); 
+ 
+    pq.printHeap(); // Print the heap after inserts 
+ 
+    pq.insert(15); // Insert additional element 
+    pq.insert(20); 
+    pq.printHeap(); // Print after insertions 
+ 
+    pq.deleteMax(); // Remove the max element 
+    pq.printHeap(); // Print after deletion 
+ 
+    pq.deleteMax(); // Remove the max element again 
+    pq.printHeap(); // Print after deletion 
+ 
+    pq.heapSort();  // Perform heap sort 
+    pq.printHeap(); // Print sorted heap 
+ 
+    return 0; 
+} 

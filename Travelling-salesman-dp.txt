@@ -1,0 +1,48 @@
+// Travelling salesman problem 
+// TC: O(n*n*2^n) and SC: O(n*2^n) 
+// General Formula: [Top-Down Approach] 
+// g(cur, subset) = min[(C(cur, next) + g(next, subset-{next}))]  
+// Example: 
+// g(1, {2,2,4}) = min[(C12 + g(2, {3,4}), (C13 + g(3, {2,4}), (C14 + g(4, {2,3})] 
+ 
+#include <bits/stdc++.h> 
+using namespace std; 
+ 
+// Recursive function to calculate the minimum traveling cost 
+int totalCost(int mask, int curr, int n, vector<vector<int>> &cost, 
+vector<vector<int>> &memo) 
+{ 
+    if (mask == (1 << n) - 1) // All cities visited 
+        return cost[curr][0]; // Return cost to return to start 
+ 
+    if (memo[curr][mask] != -1) // Use memoized result if available 
+        return memo[curr][mask]; 
+ 
+    int ans = INT_MAX; 
+    for (int i = 0; i < n; i++) 
+    { 
+        if (!(mask & (1 << i))) // If city i is not visited 
+            ans = min(ans, cost[curr][i] + totalCost(mask | (1 << i), i, n, cost, 
+memo)); 
+    } 
+    return memo[curr][mask] = ans; 
+} 
+ 
+// Main function to solve the Traveling Salesman Problem 
+int tsp(vector<vector<int>> &cost) 
+{ 
+    int n = cost.size(); 
+    vector<vector<int>> memo(n, vector<int>(1 << n, -1)); // Memoization table 
+    return totalCost(1, 0, n, cost, memo); // Start from city 0 with only it visited 
+} 
+ 
+int main() 
+{ 
+    vector<vector<int>> cost = {{0, 10, 15, 20}, 
+                                {10, 0, 35, 25}, 
+                                {15, 35, 0, 30}, 
+                                {20, 25, 30, 0}}; // Example cost matrix 
+ 
+    cout << tsp(cost) << endl; // Print the minimum cost 
+    return 0; 
+} 

@@ -1,0 +1,40 @@
+// Subarray with given sum 
+// TC: O(n) and SC: O(1) 
+#include <bits/stdc++.h> 
+using namespace std; 
+vector<int> subarrayWithGivenSum(const vector<int> arr, int target) 
+{ 
+    int start = 0, currentSum = 0; 
+    for (int end = 0; end < arr.size(); ++end) 
+    { 
+        currentSum += arr[end]; 
+        while (currentSum > target) 
+        { 
+            currentSum -= arr[start]; 
+            start++; 
+        } 
+        if (currentSum == target) 
+        { 
+            return {start, end}; // Return 0-based indices 
+        } 
+    } 
+ 
+    return {-1}; 
+} 
+ 
+int main() 
+{ 
+    vector<int> arr = {1, 2, 3, 7, 5}; 
+    int target = 10; 
+    vector<int> result = subarrayWithGivenSum(arr, target); 
+    if (result[0] == -1) 
+    { 
+        cout << "No subarray with the given sum found.\n"; 
+    } 
+    else 
+    { 
+        cout << "Subarray with the given sum is found between index " 
+             << result[0] << " to " << result[1] << ".\n"; 
+    } 
+    return 0; 
+} 
