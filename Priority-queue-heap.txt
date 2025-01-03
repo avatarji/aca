@@ -67,17 +67,18 @@ public:
 int main()
 {
     MaxHeap pq;
-    pq.insert(9);
     pq.insert(4);
     pq.insert(7);
     pq.insert(10);
-
+    cout << " Heap elements: ";
     pq.printHeap(); // Print heap after insertions
 
     pq.insert(20);
+    cout << " Heap elements: ";
     pq.printHeap(); // Print heap after insertions
 
     pq.deleteMax(); // Remove the max element
+    cout << " Heap elements: ";
     pq.printHeap(); // Print heap after deletion
 
     return 0;
